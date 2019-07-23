@@ -29,9 +29,25 @@ class App extends Component {
 		});
 	}
 
-	personNameHandler = (event, index) => {
-		console.log(event.target.value);
-		console.log(index);
+	personNameHandler = (event, id) => {
+		let personIndex = this.state.persons.findIndex(p => p.id === id);
+
+		const person = {...this.state.persons[personIndex]};
+
+		person.name = event.target.value;
+
+		const persons = [...this.state.persons];
+
+		persons[id] = person;
+
+		this.setState({
+			persons: persons
+		})
+
+		
+
+		
+		
 	}
 
 	render() {
@@ -56,7 +72,7 @@ class App extends Component {
 								name={person.name}
 								age={person.age}
 								click={() => this.deletePerson(index)}
-								changed={() => this.personNameHandler(event, index)}/>
+								changed={(event) => this.personNameHandler(event, person.id)}/>
 						})
 					}
 				</div>
