@@ -48,9 +48,7 @@ class App extends React.Component {
 	}
 
 	render() {
-
 		let persons = null;
-
 
 		if (this.state.showPersons) {
 			persons =
