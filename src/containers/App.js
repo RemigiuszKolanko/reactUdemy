@@ -13,7 +13,21 @@ class App extends React.Component {
 			{ id: 3, name: "Oliwier", age: 9 }
 		],
 		otherState: "Other state",
-		showPersons: false
+		showPersons: false,
+		showCockpit: true
+	}
+
+	componentDidMount() {
+		console.log('[App.js] componentDidMount');
+	}
+
+	shouldComponentUpdate() {
+		console.log('[App.js] shouldComponentUpdate');
+		return true;
+	}
+
+	componentDidUpdate() {
+		console.log('[App.js] componentDidUpdate');
 	}
 
 	togglePersonHandler = () => {
@@ -21,6 +35,13 @@ class App extends React.Component {
 		this.setState({
 			showPersons: !showPersonState
 		});
+	}
+
+	toggleCockpitHandler = () => {
+		const showCockpit = this.state.showCockpit;
+		this.setState({
+			showCockpit: !showCockpit
+		})
 	}
 
 	deletePersonHandler = (index) => {
@@ -59,13 +80,21 @@ class App extends React.Component {
 
 		}
 
+		let cockpit = null;
+
+		if (this.state.showCockpit) {
+			cockpit = <Cockpit
+				personsLength={this.state.persons.length}
+				showPersons={this.state.showPersons}
+				clicked={this.togglePersonHandler}
+				title={this.props.appTitle} />
+		}
+
 		return (
 			<div className={classes.App}>
-				<Cockpit
-					persons={this.state.persons}
-					showPersons={this.state.showPersons}
-					clicked={this.togglePersonHandler}
-					title={this.props.appTitle}/>
+				<button
+					onClick={this.toggleCockpitHandler}>Toggle Cockpit</button>
+				{cockpit}
 				{persons}
 			</div>
 		);
