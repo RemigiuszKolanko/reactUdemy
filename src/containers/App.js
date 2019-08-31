@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import classes from './App.module.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import Auxiliary from '../hoc/Auxiliary';
+import withClass from '../hoc/withClass';
 
-class App extends React.Component {
+class App extends Component {
 	state = {
 		persons: [
 			{ id: 0, name: "Remigiusz", age: 28 },
@@ -14,20 +16,8 @@ class App extends React.Component {
 		],
 		otherState: "Other state",
 		showPersons: false,
-		showCockpit: true
-	}
-
-	componentDidMount() {
-		console.log('[App.js] componentDidMount');
-	}
-
-	shouldComponentUpdate() {
-		console.log('[App.js] shouldComponentUpdate');
-		return true;
-	}
-
-	componentDidUpdate() {
-		console.log('[App.js] componentDidUpdate');
+		showCockpit: true,
+		changeCounter: 0
 	}
 
 	togglePersonHandler = () => {
@@ -63,8 +53,11 @@ class App extends React.Component {
 
 		persons[id] = person;
 
-		this.setState({
-			persons: persons
+		this.setState((prevState, props) => {
+			return {
+				persons: persons,
+				changeCounter: prevState.changeCounter + 1
+			}
 		})
 	}
 
@@ -82,6 +75,9 @@ class App extends React.Component {
 
 		let cockpit = null;
 
+		console.log(this.props.appTitle);
+		
+
 		if (this.state.showCockpit) {
 			cockpit = <Cockpit
 				personsLength={this.state.persons.length}
@@ -91,14 +87,14 @@ class App extends React.Component {
 		}
 
 		return (
-			<div className={classes.App}>
+			<Auxiliary>
 				<button
 					onClick={this.toggleCockpitHandler}>Toggle Cockpit</button>
 				{cockpit}
 				{persons}
-			</div>
+			</Auxiliary>
 		);
 	}
 }
 
-export default App;
+export default withClass(App, classes.App);
