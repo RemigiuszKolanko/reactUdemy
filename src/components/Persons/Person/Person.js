@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classes from './Person.module.css';
 import withClass from '../../../hoc/withClass';
 import Auxiliary from '../../../hoc/Auxiliary';
+import AuthContext from '../../../context/auth-context';
 
 class Person extends Component {
 
@@ -13,6 +14,8 @@ class Person extends Component {
         this.inputElementRef = React.createRef();
     }
 
+    static contextType = AuthContext;
+
     componentDidMount() {
         this.inputElementRef.current.focus();
     }
@@ -20,7 +23,8 @@ class Person extends Component {
     render() {
         return (
             <Auxiliary>
-                {this.props.isAuth ? <p>Authenticated</p> : <p>Please log in</p>}
+                {this.context.authenticated ? <p>Authenticated</p> : <p>Please log in</p>}
+
                 <p onClick={this.props.click}>
                     Hi! My name is {this.props.name}.
                     I am {this.props.age} years old.

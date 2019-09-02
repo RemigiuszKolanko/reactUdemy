@@ -4,6 +4,7 @@ import Person from './Person/Person';
 
 class Persons extends Component {
 
+    // tutaj już podłączeni do całych propsów żeby nie wyłączać reakcji komponentu Person
     shouldComponentUpdate(nextProps, nextState) {
         if(nextProps !== this.props) {
             return true;
@@ -22,15 +23,16 @@ class Persons extends Component {
     }
 
     render() {
-        return this.props.persons.map((person, index) => {
-            return <Person
-                key={person.id}
-                name={person.name}
-                age={person.age}
-                click={() => this.props.clicked(index)}
-                changed={(event) => this.props.changed(event, person.id)}
-                isAuth={this.props.isAuthenticated}/>
-        })
+        return (
+                this.props.persons.map((person, index) => {
+                    return <Person
+                        key={person.id}
+                        name={person.name}
+                        age={person.age}
+                        click={() => this.props.clicked(index)}
+                        changed={(event) => this.props.changed(event, person.id)}></Person>
+                })
+        );
     }
 }
 
